@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=utf8" />
+    <title>
+      Jokkerin ventti
+    </title>
+    <link href="jokkeri.css" rel="stylesheet" />
+    <script src="jquery-1.9.1.min.js" type="text/javascript">
+    </script>
+    <script src="jokkeri.js" type="text/javascript">
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="noscript">
+        <p>
+          Sovellus ei toimi ilman JavaScriptiä!
+         </p>
+        </div>
+      <div id="tabs">
+      </div>
+      <div id="header">
+        Jokkerin Ventti
+      </div>
+      <div id="content">
+      </div>
+    </div>
+    <div class="hidden" data-page="etusivu">
+      <img class="etuliike" style="height: 10em; width: 10em;" />
+      <br />
+      Ylävalikosta saat vaihdettua näkymää.
+      <br />
+      Liikkeet-välilehdellä voit valita haluamasi ohjelman ja liikkeet.
+      <br />
+      Ajastin-välilehdellä voit seurata ohjelman etenemistä.
+      <br />
+      Tietoa-välilehdellä on tietoa Jokkerin ventistä.
+      <br />
+    </div>
+    <div class="hidden" data-page="tietoa">
+      <div class="textcolumn">
+        <img class="tietoaliike" style="height: 10em; width: 10em;" />
+        <br />
+        "Jokkerin ventti" on äärimmäisen tehokas ja monipuolinen lihaskunnon kehittäjä. Vain harjoitteluun lujasti sitoutuneet ja voimakkaan tahdon omaavat urheilijat pystyvät viemään "Ventin" kovimmat ohjelmat läpi. Harjoituksen jälkeen on ohjelman mukaisesti ventti, mutta annamme takuun: Suorittamalla "Ventin" ohjelman mukaisesti 10 kertaa lihaskuntosi paranee lähtötasostasi riippuen 10-50%.
+        <br /><br />
+        Jokkerin ventti on perinteinen kestävyyskuntopiiri, joka alunperin on kehitetty hiihtäjille 
+        <a href="http://fi.wikipedia.org/wiki/Jouko_Elevaara" target="_blank">
+          Jouko Elevaaran
+        </a>
+        toimesta 1980-luvulla. Vielä nykyäänkin Jokkerin venttiä käytetään lihaskunnon kehittämiseen, mm. suunnistajien keskuudessa sekä TTY:llä. Ventissä on 21 liikettä, joita toistetaan ohjelman mukaan 2-5x40s 20s palautuksilla tai 2-5 minuuttia yhtäjaksoisesti liikkeestä riippuen. Joitakin liikkeitä on usein jouduttu soveltamaan tai jättämään pois käytännön syistä. Nämä muutokset ovat mahdollisia myös tässä sovelluksessa, liikkeet-välilehdellä pystyt valitsemaan pois haluamiasi liikkeitä sekä valitsemaan ohjelman.
+        <!-- Erikoisvalintana on jalan sivullenoston sisällyttäminen 2-5x40s liikkeenä vain A-ohjelman 3x40s liikkeen sijasta.-->
+        <br /><br />
+        Sovelluksen pohjana on käytetty netistä löytyviä 
+        <a href="http://59.fi/wp/?page_id=23">
+          Jokkerin ventin skannattuja ohjeita
+        </a>
+        .
+        <br />
+        <br />
+        Copyright © Heikki Virekunnas 2013
+      </div>
+    </div>
+    <div class="hidden" data-page="liikkeet">
+      <p>
+        Valitse sopiva ohjelma
+      </p>
+      <input type="radio" name="ohjelma" id="3ohjelma" value="3" />
+      <label for="3ohjelma">A-ohjelma</label>
+      <input type="radio" name="ohjelma" id="2ohjelma" value="2" />
+      <label for="2ohjelma">B-ohjelma</label>
+      <input type="radio" name="ohjelma" id="1ohjelma" value="1" />
+      <label for="1ohjelma">C-ohjelma</label>
+      <input type="radio" name="ohjelma" id="0ohjelma" value="0" checked="checked" />
+      <label for="0ohjelma">D-ohjelma</label>
+      <br />
+      <br />
+      
+      <!--
+<input type="checkbox" name="strict" id="strict" checked />
+Jalan sivulle nosto 2-5x40s
+<br />
+-->
+  
+  <p>
+    Voit valita jotkin liikkeet pois sarjasta klikkaamalla
+  </p>
+  <p>
+    <button type="button" id="kaikkiliikkeet" style="font-size: 1.1em;">Kaikki mukaan/pois</button>
+  </p>
+  <ol>
+    <li data-type="1" data-num="1">
+      Jalkojen vaihtohyppely
+    </li>
+    <li data-type="2" data-num="2">
+      Päinmakuulla vastakkainen käsi ja jalka
+    </li>
+    <li data-type="1" data-num="3">
+      Haara-perus-hyppely
+    </li>
+    <li data-type="2" data-num="4">
+      Kyynerpäät kattoon
+    </li>
+    <li data-type="2" data-num="5">
+      Polviseisonnasta kaatuminen
+    </li>
+    <li data-type="1" data-num="6">
+      Jalanheitot eteen
+    </li>
+    <li data-type="1" data-num="7">
+      Takanoja jalat suorina
+    </li>
+    <li data-type="2" data-num="8">
+      Penkiltä lasku -kyykky
+    </li>
+    <li data-type="1" data-num="9">
+      Laskuvarjohyppely
+    </li>
+    <li data-type="1" data-num="10">
+      Punnerrus jalkaa nostaen
+    </li>
+    <li data-type="1" data-num="11">
+      Takanoja polvet koukussa
+    </li>
+    <li data-type="1" data-num="12">
+      Saksihyppely (AC/DC)
+    </li>
+    <li data-type="1" data-num="13">
+      Jalkakyykky
+    </li>
+    <li data-type="1" data-num="14">
+      Penkille nousu
+    </li>
+    <li data-type="1" data-num="15">
+      Päkiähyppely
+    </li>
+    <li data-type="3" data-num="16">
+      Jalan nosto sivulle
+    </li>
+    <li data-type="1" data-num="17">
+      Puolilinkkari
+    </li>
+    <li data-type="1" data-num="18">
+      Polvennostojuoksu seinää vasten
+    </li>
+    <li data-type="2" data-num="19">
+      Päinmakuulta nousu käsien varaan
+    </li>
+    <li data-type="1" data-num="20">
+      Kyykkyhyppely
+    </li>
+    <li data-type="2" data-num="21">
+      Kyykkynoja
+    </li>
+  </ol>
+  </div>
+  <div id="tooltip" class="hidden">
+  </div>
+  <div id="tauko" class="hidden">
+    TAUKO!
+  </div>
+  </body>
+</html>
