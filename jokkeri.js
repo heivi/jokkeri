@@ -66,6 +66,7 @@ $(function() {
 	timer = 0;
 	timeron = false;
 	kierros = 0;
+  liikekierrokset = 0;
 	first = true;
 	kierrosjalj = 0;
 	
@@ -168,11 +169,21 @@ $(function() {
 		} else if (sivu == "Ajastin") {
 			var timeleft = calcFullTime();
 			
-			$("#content").html('<div id="seuraavakuva"></div><img id="tamaliike" /><br /><span id="tamakuvaus"></span><br />Kokonaisaika jäljellä:<br /><div id="aika"><span class="isoaika"><span id="kokoh">0</span>:<span id="kokom">00</span>:<span id="kokos">00</span></span><br /><span id="liiketta"></span> jäljellä:<br /><span class="pieniaika"><span id="liikem">0</span>:<span id="liikes">00</span></span></div><div id="seuraavaliike"></div><div id="ajastinnappulat"></div>');
+			$("#content").html('<div id="seuraavakuva"></div><img id="tamaliike" /><br /><span id="tamakuvaus"></span> <span id="kierros">1/1</span><br />Kokonaisaika jäljellä:<br /><div id="aika"><span class="isoaika"><span id="kokoh">0</span>:<span id="kokom">00</span>:<span id="kokos">00</span></span><br /><span id="liiketta"></span> jäljellä:<br /><span class="pieniaika"><span id="liikem">0</span>:<span id="liikes">00</span></span></div><div id="seuraavaliike"></div><div id="ajastinnappulat"></div>');
 			
 			updateTime(timeleft);
 			
 			$("#ajastinnappulat").append('<button type="button" id="start">Käynnistä</button> <button type="button" id="restart">Nollaa</button> <button type="button" id="skip">Hyppää liikkeen yli</button>');
+      
+      if (timeron) {
+        $("#start").html("Tauko");
+      }
+      
+      if (kierros == 0) {
+        $("#kierros").html("");
+      } else {
+        $("#kierros").html(((liikekierrokset-kierros)+1)+"/"+liikekierrokset);
+      }
 			
 			//$("#tamaliike").css("width", "10em");
       if (!tauko) {
@@ -185,6 +196,7 @@ $(function() {
       $("#tamakuvaus").html($("[data-page=liikkeet] li[data-num="+state+"]").html());
       
       if (tauko) {
+        $("#tamakuvaus, #kierros").html("");
         $("#tamaliike").css("border", "solid red thick");
       } else {
         $("#tamaliike").css("border", "solid green thick");
@@ -201,6 +213,9 @@ $(function() {
 				nextstate++;
 			}
       if (nextstate < 22) {
+        if (kierros > 1) {
+          nextstate--;
+        }
         $("#seuraavaon").html($("[data-page=liikkeet] li[data-num="+(nextstate)+"]").html());
         $("#seuraavaon").data("num", nextstate);
         //$("#seuraavaon").off("mouseover mouseleave");
@@ -220,6 +235,9 @@ $(function() {
         //  });
         //  
         //});
+        if (kierros > 1) {
+          nextstate++;
+        }
       } else {
         //$("#seuraavaon").off("mouseover mouseleave");
 				$("#seuraavaon").html("lepo");
@@ -440,11 +458,70 @@ $(function() {
 						nextstate++;
 					}
           
+          
+					
+					liiketime = 0;
+					
+					//paljonko liikeaikaa jäljellä, kun ollaan nykyisessä liikkeessä (state)
+					// ja onko uusi liike, eli laitetaanko kierroksia enemmän kuin yksi
+					
+					
+					if (liiketypes[state-1] == 1) {
+						//x*sarja * 40 sek + 20 sek tauot
+						liiketime = 40;
+						
+						if (kierros == 0) {
+							kierros = parseInt(sarja)+2;
+              liikekierrokset = kierros;
+						} else {
+							kierros--;
+						}
+						
+					} else if (liiketypes[state-1] == 2) {
+						//120+sarja*60
+						liiketime = parseInt(sarja)*60+120;
+						
+						if (kierros == 0) {
+							kierros = 1;
+              liikekierrokset = kierros;
+						} else {
+							kierros--;
+						}
+						
+					} else if (liiketypes[state-1] == 3) {
+						if (strict && parseInt(sarja) == 3) {
+							liiketime = 40;
+							
+							if (kierros == 0) {
+								kierros = 3;
+                liikekierrokset = kierros;
+							} else {
+								kierros--;
+							}
+						} else {
+							liiketime = 40;
+						
+							if (kierros == 0) {
+								kierros = parseInt(sarja)+2;
+                liikekierrokset = kierros;
+							} else {
+								kierros--;
+							}
+						}
+					} else {
+						//häikkää
+						console.log("liiketyyppi ei tunnettu");
+					}
+          
           if (currsivu == "Ajastin") {
             if (nextstate < 22) {
+              if (kierros > 1) {
+                nextstate--;
+              }
+              $("#seuraavaon").css("font-size", "1em");
               $("#seuraavaon").html($("[data-page=liikkeet] li[data-num="+(nextstate)+"]").html());
               $("#seuraavaon").data("num", nextstate);
-              $("#seuraavaon").off("mouseover mouseleave");
+              //$("#seuraavaon").off("mouseover mouseleave");
               $("#seuraavakuva").html('Seuraava:<br /><img src="animaatio/'+nextstate+'.gif" style="width: 100%;" />');
               //$("#seuraavaon").mouseover(function (e) {
               //	//$(this).data("num");
@@ -461,62 +538,25 @@ $(function() {
               //	});
               //	
               //});
-            
+              if (kierros > 1) {
+                nextstate++;
+              }
             } else {
               $("#seuraavaon").off("mouseover mouseleave");
               $("#seuraavaon").html("lepo");
               $("#seuraavakuva").html('');
             }
           }
-					
-					liiketime = 0;
-					
-					//paljonko liikeaikaa jäljellä, kun ollaan nykyisessä liikkeessä (state)
-					// ja onko uusi liike, eli laitetaanko kierroksia enemmän kuin yksi
-					
-					
-					if (liiketypes[state-1] == 1) {
-						//x*sarja * 40 sek + 20 sek tauot
-						liiketime = 40;
-						
-						if (kierros == 0) {
-							kierros = parseInt(sarja)+2;
-						} else {
-							kierros--;
-						}
-						
-					} else if (liiketypes[state-1] == 2) {
-						//120+sarja*60
-						liiketime = parseInt(sarja)*60+120;
-						
-						if (kierros == 0) {
-							kierros = 1;
-						} else {
-							kierros--;
-						}
-						
-					} else if (liiketypes[state-1] == 3) {
-						if (strict && parseInt(sarja) == 3) {
-							liiketime = 40;
-							
-							if (kierros == 0) {
-								kierros = 3;
-							} else {
-								kierros--;
-							}
-						} else {
-							liiketime = 40;
-						
-							if (kierros == 0) {
-								kierros = parseInt(sarja)+2;
-							} else {
-								kierros--;
-							}
-						}
-					} else {
-						//häikkää
-						console.log("liiketyyppi ei tunnettu");
-					}
+          
+          if (currsivu == "Ajastin") {
+            if (kierros == 0) {
+              $("#kierros").html("");
+              //console.log("!");
+            } else {
+              $("#kierros").html(((liikekierrokset-kierros)+1)+"/"+liikekierrokset);
+              //console.log("!!");
+            }
+          }
 					
 					
 				} else {
@@ -526,6 +566,12 @@ $(function() {
 						kierros = 0;
 						if (nextstate < 22) {
 							liiketime = 30;
+              if (currsivu == "Ajastin") {
+                $("#tamakuvaus, #kierros").html("");
+                $("#seuraavakuva").css("z-index", "1");
+                $("#seuraavakuva").animate({left: $("#tamaliike").position().left + (($("#tamaliike").width() - $("#tamaliike").width()/1.2) / 2), width: $("#tamaliike").width()/1.2}, 2000);
+                $("#seuraavaon").animate({"font-size": "1.2em"}, 2000);
+              }
 						} else {
 							liiketime = 0;
 						}
@@ -576,7 +622,8 @@ $(function() {
     var height = $("#tamaliike").height();
     
     $("#seuraavakuva").css("position", "absolute").css("z-index", "-1")
-      .css("left", position.left + width).css("top", position.top);
+      .css("left", position.left + width).css("top", position.top)
+      .css("width", $("#tamaliike").width() / 1.5);
     
   }
 

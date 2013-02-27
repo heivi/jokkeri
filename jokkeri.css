@@ -69,7 +69,7 @@ button {
   margin: auto;
 }
 
-#tamakuvaus {
+#tamakuvaus, #kierros {
   font-weight: bold;
   font-style: italic;
   font-size: 1.3em;
@@ -92,9 +92,9 @@ button {
 	/*cursor: default;*/
 }
 
-#seuraavakuva {
+/*#seuraavakuva {
   max-width: 200px;
-}
+}*/
 
 #seuraavakuva img {
   border: solid black thin;
