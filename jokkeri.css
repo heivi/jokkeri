@@ -1,19 +1,22 @@
-﻿html, body {
-	margin: 0;
-	padding: 0;
-	font-family: "Calibri", sans-serif;
-	padding-bottom: 20px;
-  overflow-x: hidden;
+﻿* {
+  -ms-scroll-chaining: none;
 }
 
-button {
-  font-size: 2em;
+html, body {
+	margin: 0;
+	padding: 0;
+  width: 100%;
+  height: 100%;
+	font-family: "Calibri", sans-serif;
+  overflow-x: hidden;
+  -ms-touch-action: none;
 }
 
 #container {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+  -ms-touch-action: none;
 }
 
 #noscript {
@@ -24,36 +27,35 @@ button {
 }
 
 #header {
-	font-size: 5em;
+  padding: 0;
+  margin: 0;
+	font-size: 2px;
 	text-align: center;
 	text-transform: uppercase;
+  height: 100px;
+  font-weight: bold;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -ms-touch-action: none;
 }
 
-#content {
-	text-align: center;
-	font-size: 1.6em;
-}
-
-#content li {
+#liikelista li {
 	cursor: pointer;
+}
+
+#tabs  div{
+  text-align: center;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -ms-touch-action: pan-y;
 }
 
 #tabs {
-	border-bottom: solid black 1px;
-	max-height: 10%;
-	text-align: center;
-	user-select: none;
-}
-
-.navi {
-	padding: 0 2em;
-	background-color: #333;
-	color: white;
-	font-size: 2em;
-	text-transform: uppercase;
-	border: solid black 1px;
-	cursor: pointer;
-	user-select: none;
+  -ms-touch-action: none;
 }
 
 .hidden {
@@ -62,11 +64,6 @@ button {
 
 .hidden2 {
 	display: none;
-}
-
-#content {
-  max-width: 800px;
-  margin: auto;
 }
 
 #tamakuvaus, #kierros {
@@ -98,6 +95,13 @@ button {
 
 #seuraavakuva img {
   border: solid black thin;
+  max-width: 99%;
+  max-height: 70%;
+  overflow: hidden;
+}
+
+#seuraavakuva {
+  overflow: hidden;
 }
 
 #tooltip {
@@ -107,11 +111,12 @@ button {
 	border: solid black thin;
 	text-align: center;
 	font-size: 1.5em;
+  -ms-touch-action: none;
 }
 
 #tauko {
 	position: fixed;
-	bottom: 20px;
+	bottom: 0px;
 	left: 0px;
 	height: 20px;
 	width: 100%;
@@ -119,49 +124,21 @@ button {
 	text-transform: uppercase;
 	text-align: center;
 	background-color: red;
+  -ms-touch-action: none;
 }
 
 #content li:hover{
 	color: #666;
 }
 
-#tamaliike {
-  width: 50%;
+/*#tamaliike {
+  width: 30%;
 }
 
 #seuraavakuva {
   width: 24%;
-}
-
-@media all and (max-width: 950px) {
-  #tabs br.hidden {
-    display: block;
-  }
-}
+}*/
 
 @media all and (max-width: 500px) {
-  #tabs br.hidden2 {
-    display: block;
-  }
-  
-  .navi {
-    padding: 0;
-    background-color: #333;
-    color: white;
-    font-size: 4em;
-    text-transform: uppercase;
-    border: solid black 1px;
-    cursor: pointer;
-    user-select: none;
-    width: 90%;
-    display: block;
-    height: auto;
-    margin: auto;
-    margin-bottom: -1em;
-  }
-  
-  input[type="radio"] {
-    width: 75px;
-    height: 75px;
-  }
+
 }
