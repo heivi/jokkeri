@@ -80,13 +80,6 @@ $(function() {
     
     $( "#tabs" ).tabs( "option", "heightStyle", "fill" );
     
-    //$("#seuraavakuva").position({ 
-    //  my: "left top",
-    //  at: "right+5 top",
-    //  of: "#tamaliike",
-    //  collision: "none"
-    //});
-    
     var tamapos = $("#tamaliike").position();
     var tamawidth = $("#tamaliike").width();
     var tamaheight = $("#tamaliike").height();
@@ -191,8 +184,7 @@ $(function() {
     
     $("#liikem").html("0");
     $("#liikes").html("00");
-        
-    //$("#tamaliike").css("width", "10em");
+
     if (!tauko) {
       $("#liiketta").html("Liikettä");
       $("#tamaliike").attr("src", "animaatio/"+state+".gif");
@@ -208,8 +200,6 @@ $(function() {
     } else {
       $("#tamaliike").css("border", "solid green thick");
     }
-        
-    //$("#seuraavaliike").append('Seuraava liike on <span id="seuraavaon"></span>');
     
     $(window).trigger("resize");
       
@@ -223,34 +213,17 @@ $(function() {
       if (kierros > 1) {
         nextstate--;
       }
-      $("#seuraavaon").html($("[data-page=liikkeet] li[data-num="+(nextstate)+"]").html());
+      $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"]").html());
       $("#seuraavaon").data("num", nextstate);
-      //$("#seuraavaon").off("mouseover mouseleave");
       $("#seuraavakuva").html('Seuraava:<br /><img src="animaatio/'+nextstate+'.gif" />');
-      //$("#seuraavaon").mouseover(function (e) {
-      //  //$(this).data("num");
-      //  
-      //  $("#tooltip").html('<img src="animaatio/'+$(this).data("num")+'.gif" style="width: 9em;" /><br />'+ohjeet[$(this).data("num")-1]);
-      //  $("#tooltip").css("position", "absolute");
-      //  $("#tooltip").css("top", (e.pageY - $("#tooltip").height()) +"px");
-      //  $("#tooltip").css("left", e.pageX+"px");
-      //  $("#tooltip").css("display", "block");
-      //  
-      //  $("#seuraavaon").mouseleave(function (e2) {
-      //    $("#tooltip").html();
-      //    $("#tooltip").css("display", "none");
-      //  });
-      //  
-      //});
+      
       if (kierros > 1) {
         nextstate++;
       }
     } else {
-      //$("#seuraavaon").off("mouseover mouseleave");
       $("#seuraavaon").html("lepo");
     }
-    
-    //$("#start").html("Käynnistä");
+
   }
   
   setTimer();
@@ -264,14 +237,12 @@ $(function() {
       $("#tamaliike").attr("src", "animaatio/0.gif");
       $("#tamaliike").css("border", "solid red thick");
       $("#tauko").css("display", "block");
-			//$("body").css("padding-bottom", "0");
       $("#start span").html("Jatka");
     } else {
       startTimer();
       $("#tamaliike").attr("src", "animaatio/"+state+".gif");
       $("#tamaliike").css("border", "solid green thick");
       $("#tauko").css("display", "none");
-			//$("body").css("padding-bottom", "20px");
       $("#start span").html("Tauko");
     }
 	});
@@ -355,16 +326,11 @@ $(function() {
 		// viimeinen tauko pois
 		secs -= 30;
 		
-		//var hours = Math.floor(secs/60/60);
-		//secs -= hours*60*60;
-		//var mins = Math.floor(secs/60);
-		//secs -= mins*60;
 		return secs;
 	}
 	
 	function updateTime(secs) {
 	
-			//console.log("secs: " + secs);
 			var hours = Math.floor(secs/60/60);
 			secs -= hours*60*60;
 			var mins = Math.floor(secs/60);
@@ -450,12 +416,9 @@ $(function() {
           $(window).trigger("resize");
 
 					$("#tauko").css("display", "none");
-					//$("body").css("padding-bottom", "20px");      
           
 					//selvitä seuraava liike
 					nextstate = state + 1;
-					//console.log(nextstate);
-					//console.log($.inArray(nextstate, disabled));
 					while ($.inArray(nextstate, disabled) != -1 && nextstate < 22) {
 						nextstate++;
 					}
@@ -521,30 +484,14 @@ $(function() {
               nextstate--;
             }
             $("#seuraavaon").css("font-size", "1em");
-            $("#seuraavaon").html($("[data-page=liikkeet] li[data-num="+(nextstate)+"]").html());
+            $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"]").html());
             $("#seuraavaon").data("num", nextstate);
-            //$("#seuraavaon").off("mouseover mouseleave");
             $("#seuraavakuva").html('Seuraava:<br /><img src="animaatio/'+nextstate+'.gif" />');
-            //$("#seuraavaon").mouseover(function (e) {
-            //	//$(this).data("num");
-            //	
-            //	$("#tooltip").html('<img src="animaatio/'+$(this).data("num")+'.gif" style="width: 9em;" /><br />'+ohjeet[$(this).data("num")-1]);
-            //	$("#tooltip").css("position", "absolute");
-            //	$("#tooltip").css("top", (e.pageY - $("#tooltip").height()) +"px");
-            //	$("#tooltip").css("left", e.pageX+"px");
-            //	$("#tooltip").css("display", "block");
-            //	
-            //	$("#seuraavaon").mouseleave(function (e2) {
-            //		$("#tooltip").html();
-            //		$("#tooltip").css("display", "none");
-            //	});
-            //	
-            //});
+
             if (kierros > 1) {
               nextstate++;
             }
           } else {
-            $("#seuraavaon").off("mouseover mouseleave");
             $("#seuraavaon").html("lepo");
             $("#seuraavakuva").html('');
           }
@@ -553,10 +500,8 @@ $(function() {
 
           if (kierros == 0) {
             $("#kierros").html("");
-            //console.log("!");
           } else {
             $("#kierros").html(((liikekierrokset-kierros)+1)+"/"+liikekierrokset);
-            //console.log("!!");
           }
 
 					
@@ -573,10 +518,7 @@ $(function() {
               var tamapos = $("#tamaliike").position();
               var tamawidth = $("#tamaliike").width();
               var tamaheight = $("#tamaliike").height();
-              
-              //$("#seuraavakuva").css("position", "absolute")
-              //  .css("top", tamapos.top + tamaheight/20).css("left", tamapos.left + tamawidth/20)
-              //  .width(tamawidth - tamawidth/10);
+
               $("#seuraavakuva").animate({left: (tamapos.left + (tamawidth/20)), width: (tamawidth - (tamawidth/10)), top: (tamapos.top + (tamaheight/20))}, 2000);
               $("#seuraavaon").animate({"font-size": "1.2em"}, 2000);
 
@@ -602,7 +544,6 @@ $(function() {
 					}
 
 					$("#tauko").css("display", "block");
-					//$("body").css("padding-bottom", "0");
 					
 				}
 
