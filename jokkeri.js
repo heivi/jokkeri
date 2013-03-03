@@ -36,68 +36,91 @@ $(function() {
     "images/8.svg"
     ]);
     
-	$("#header, img").on("click dblclick mousedown keydown mouseup keyup contextmenu", function(e) {
+	$("img").on("click dblclick mousedown keydown mouseup keyup contextmenu", function(e) {
 		e.preventDefault();
 	});
   
-  $("#tabs").tabs({
-    activate: function (e, ui) {
-      $(window).trigger("resize");
-    },
-    heightStyle: "fill"
-  });
-  
-  $("#ajastinnappulat").buttonset();
-  $("#ohjelmavalinta").buttonset();
-  $("#kaikkiliikkeet").button();
-  
   $(window).resize(function (e) {
-    $("#header").css("height", $(window).height() / 10);
-    $("#header").css("height", $("#header").height());
-    $("#header").css("width", $("#header").width());
-    $("#header").boxfit({
-      align_center: true,
-      align_middle: true,
-      step_size: 1,
-      step_limit: 100,
-      minimum_font_size: 5,
-      maximum_font_size: 200
-    });
-    $( "#tabs" ).tabs( "option", "heightStyle", "content" );
     
-    $("#tamaliike, #seuraavakuva").height("0");
-    var plainheight = $("#header").height() + $("#tabs").height();
-    var windowheight = $(window).height();
+    var sivu = $('.ui-page-active').attr('id');
+    console.log(sivu);
     
-    if (windowheight - plainheight < (0.2 * windowheight)) {
-      $("#tamaliike").height((0.2 * windowheight));
-      $("#seuraavakuva").height((0.2 * windowheight * 0.9));
-    } else {
-      $("#tamaliike").height(windowheight - plainheight - 1);
-      $("#seuraavakuva").height((windowheight - plainheight - 1) * 0.9);
+    if (sivu == "ajastin") {
+      
+      
+      $("#animaatiot").css("display", "block");
+      
+      $("#animaatiot").height(10);
+      
+      console.log($("#ajastinnappulat").position());
+      
+      $("#animaatiot").height($("#animaatiot").height() + (($(window).height() - $("#ajastinnappulat").height() - 120 - $("#ajastinnappulat").position().top + $('#'+sivu+' [data-role="header"]').height())));
+      
+      if ($("#animaatiot").height() < 50) {
+        $("#animaatiot").css("display", "none");
+      } else {
+        
+        var containeraspect = ($("#animaatiot").width()/2) / ($("#brafterimg").position().top - $("#animaatiot").position().top);
+        
+        console.log($("#brafterimg").position().top - $("#animaatiot").position().top);
+        console.log("aspect: "+containeraspect);
+        
+        $("#animaatiot .resize").each(function (i, el) {
+        
+          $(this).height($("#animaatiot").height());
+          
+          if (($(el).children("img").width() / $(el).children("img").height()) > containeraspect) {
+            console.log("kapea");
+            $(this).children("img").width($(this).width() - 15);
+            $(this).children("img").height("auto");
+          } else {
+            console.log("laaja");
+            $(this).children("img").height($(this).height() - 15);
+            $(this).children("img").width("auto");
+          }
+        });
+        
+      }
     }
-    $("#seuraavakuva").width($("#seuraavakuva").height() + 2);
-    
-    $( "#tabs" ).tabs( "option", "heightStyle", "fill" );
-    
-    var tamapos = $("#tamaliike").position();
-    var tamawidth = $("#tamaliike").width();
-    var tamaheight = $("#tamaliike").height();
-    
-    if (tauko && kierros == 0) {
-      $("#seuraavakuva").css("position", "absolute")
-         .css("top", tamapos.top + tamaheight/20).css("left", tamapos.left + tamawidth/20)
-         .width(tamawidth - tamawidth/10);
-    } else {
-      $("#seuraavakuva").css("position", "absolute").css("left", tamapos.left + tamawidth + 1)
-        .css("top", tamapos.top + tamaheight/20)
-        .width(tamapos.right-6);
-    }
-    
   });
   
-  $(window).trigger("resize");
+  $(window).on('orientationchange', function(e) {
+    //$(window).trigger('resize');
+  });
+  
+  $('[data-role="page"]').on("swipeleft", function(e) {
+    //$(document).on("mouseup click", function(e) {
+    //  e.preventDefault();
+    //  $(document).off('mouseup click');
+    //});
+    var nextpage = $(this).next('div[data-role="page"]');
+    if (nextpage.length > 0) {
+      $.mobile.changePage(nextpage, {
+        showLoadMsg: false,
+        transition: "slide"
+      });
+    }
+  });
+  
+  $('[data-role="page"]').on("swiperight", function(e) {
+    //$(document).on("mouseup click", function(e) {
+    //  e.preventDefault();
+    //  $(document).off('mouseup click');
+    //});
+    var prevpage = $(this).prev('div[data-role="page"]');
+    if (prevpage.length > 0) {
+      $.mobile.changePage(prevpage, {
+        showLoadMsg: false,
+        transition: "slide",
+        reverse: true
+      });
+    }
+  });
 
+  $("#ajastin").on("pageshow", function (e) {
+    $(window).trigger("resize");
+  });
+  
 	var ohjeet = ["Hiihtohyppely, hyppele vaihtaen ilmassa toista jalkaa eteen", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 	
 	liiketypes = [];
@@ -215,7 +238,8 @@ $(function() {
       }
       $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"]").html());
       $("#seuraavaon").data("num", nextstate);
-      $("#seuraavakuva").html('Seuraava:<br /><img src="animaatio/'+nextstate+'.gif" />');
+      var seuraavas = $("#seuraavakuva img").attr("style");
+      $("#seuraavakuva").html('<span style="position: absolute; top: 10; z-index: 1">Seuraava:</span><img src="animaatio/'+nextstate+'.gif" style="'+seuraavas+'" />');
       
       if (kierros > 1) {
         nextstate++;
@@ -229,21 +253,23 @@ $(function() {
   setTimer();
 			
 	$("#start").click(function(e) {
-    if ($("#start span").html() == "Käynnistä") {
+    console.log($("#start").parent().find(".ui-btn-text").text());
+    console.log($("#start .ui-btn-text"));
+    if ($("#start").parent().find(".ui-btn-text").text() == "Käynnistä") {
       startTimer();
-      $("#start span").html("Tauko");
-    } else if ($("#start span").html() == "Tauko") {
+      $("#start").parent().find(".ui-btn-text").text("Tauko")
+    } else if ($("#start").parent().find(".ui-btn-text").text() == "Tauko") {
       stopTimer();
       $("#tamaliike").attr("src", "animaatio/0.gif");
       $("#tamaliike").css("border", "solid red thick");
       $("#tauko").css("display", "block");
-      $("#start span").html("Jatka");
+      $("#start").parent().find(".ui-btn-text").text("Jatka");
     } else {
       startTimer();
       $("#tamaliike").attr("src", "animaatio/"+state+".gif");
       $("#tamaliike").css("border", "solid green thick");
       $("#tauko").css("display", "none");
-      $("#start span").html("Tauko");
+      $("#start").parent().find(".ui-btn-text").text("Tauko");
     }
 	});
 			
@@ -260,7 +286,7 @@ $(function() {
       kierros = 0;
       kierrosjalj = 0;
       nextstate = 0;
-      $("#start span").html("Käynnistä");
+      $("#start").parent().find(".ui-btn-text").text("Käynnistä");
       setTimer();
     }
 	});
@@ -293,6 +319,7 @@ $(function() {
 		
   setTimeout(function() {
     $(".etuliike").attr("src", "images/"+Math.floor((Math.random()*8)+1)+".svg");
+    $(window).trigger("resize");
   }, 500);
 
 	$(".tietoaliike").attr("src", "images/"+Math.floor((Math.random()*8)+1)+".svg");
@@ -486,7 +513,8 @@ $(function() {
             $("#seuraavaon").css("font-size", "1em");
             $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"]").html());
             $("#seuraavaon").data("num", nextstate);
-            $("#seuraavakuva").html('Seuraava:<br /><img src="animaatio/'+nextstate+'.gif" />');
+            var seuraavas = $("#seuraavakuva img").attr("style");
+            $("#seuraavakuva").html('<span style="position: absolute; top: 10; z-index: 1">Seuraava:</span><img src="animaatio/'+nextstate+'.gif" style="'+seuraavas+'" />');
 
             if (kierros > 1) {
               nextstate++;
@@ -519,7 +547,7 @@ $(function() {
               var tamawidth = $("#tamaliike").width();
               var tamaheight = $("#tamaliike").height();
 
-              $("#seuraavakuva").animate({left: (tamapos.left + (tamawidth/20)), width: (tamawidth - (tamawidth/10)), top: (tamapos.top + (tamaheight/20))}, 2000);
+              //$("#seuraavakuva").animate({left: (tamapos.left + (tamawidth/20)), width: (tamawidth - (tamawidth/10)), top: (tamapos.top + (tamaheight/20))}, 2000);
               $("#seuraavaon").animate({"font-size": "1.2em"}, 2000);
 
 						} else {

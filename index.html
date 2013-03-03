@@ -2,19 +2,22 @@
 <html>
   <head>
     <meta content="text/html; charset=utf8" />
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <title>
       Jokkerin ventti
     </title>
     <link href="jokkeri.css" rel="stylesheet" />
-    <link href="jqueryui/jquery-ui-1.10.1.custom.css" rel="stylesheet" />
+    <!--<link href="jqueryui/jquery-ui-1.10.1.custom.css" rel="stylesheet" />-->
+    <link href="jquery.mobile-1.3.0/jquery.mobile-1.3.0.min.css" rel="stylesheet" />
     <script src="jquery-1.9.1.min.js" type="text/javascript">
     </script>
-    <script src="jquery-ui-1.10.1.custom.min.js" type="text/javascript">
+    <!--<script src="jquery-ui-1.10.1.custom.min.js" type="text/javascript">
+    </script>-->
+    <script src="jquery.mobile-1.3.0/jquery.mobile-1.3.0.min.js">
     </script>
-    <script src="jquery.boxfit.js" type="text/javascript">
-    </script>
+    <!--<script src="jquery.boxfit.js" type="text/javascript">
+    </script>-->
     <script src="jokkeri.js" type="text/javascript">
     </script>
   </head>
@@ -25,18 +28,21 @@
           Sovellus ei toimi ilman JavaScriptiä!
         </p>
       </div>
-      <div id="header">
-        Jokkerin Ventti
-      </div>
-      <div id="tabs">
-        <ul>
-          <li><a href="#tabs-1">Etusivu</a></li>
-          <li><a href="#tabs-2">Liikkeet</a></li>
-          <li><a href="#tabs-3">Ajastin</a></li>
-          <li><a href="#tabs-4">Tietoa</a></li>
-        </ul>
-          
-        <div id="tabs-1">
+        
+      <div data-role="page" id="etusivu" class="tabcontent">
+        <div data-role="header" data-id="navigaatio">
+          <h1>Jokkerin Ventti</h1>
+          <div data-role="navbar" data-grid="c" id="navbar">
+            <ul>
+                <li><a href="#etusivu" class="ui-btn-active ui-state-persist">Etusivu</a></li>
+                <li><a href="#liikkeet"  data-transition="slide">Liikkeet</a></li>
+                <li><a href="#ajastin"  data-transition="slide">Ajastin</a></li>
+                <li><a href="#tietoa"  data-transition="slide">Tietoa</a></li>
+            </ul>
+          </div>
+        </div>
+      
+        <div data-role="content">
           <img class="etuliike" style="height: 10em; width: 10em;" />
           <br />
           Ylävalikosta saat vaihdettua näkymää.
@@ -48,21 +54,43 @@
           Tietoa-välilehdellä on tietoa Jokkerin ventistä.
           <br />
         </div>
-        
-        <div id="tabs-2">
+      </div>
+      
+      <div data-role="page" id="liikkeet" class="hidden tabcontent">
+        <div data-role="header" data-id="navigaatio">
+          <h1>Jokkerin Ventti</h1>
+          <div data-role="navbar" data-grid="c" id="navbar">
+            <ul>
+                <li><a href="#etusivu" href="#"  data-transition="slide" data-direction="reverse">Etusivu</a></li>
+                <li><a href="#liikkeet" href="#" class="ui-btn-active ui-state-persist">Liikkeet</a></li>
+                <li><a href="#ajastin" href="#"  data-transition="slide">Ajastin</a></li>
+                <li><a href="#tietoa" href="#"  data-transition="slide">Tietoa</a></li>
+            </ul>
+          </div>
+        </div>
+      
+        <div data-role="content">
           <p>
             Valitse sopiva ohjelma
           </p>
-          <div id="ohjelmavalinta">
-            <input type="radio" name="ohjelma" id="3ohjelma" value="3" />
-            <label for="3ohjelma">A-ohjelma</label>
-            <input type="radio" name="ohjelma" id="2ohjelma" value="2" />
-            <label for="2ohjelma">B-ohjelma</label>
-            <input type="radio" name="ohjelma" id="1ohjelma" value="1" />
-            <label for="1ohjelma">C-ohjelma</label>
-            <input type="radio" name="ohjelma" id="0ohjelma" value="0" checked="checked" />
-            <label for="0ohjelma">D-ohjelma</label>
-          </div>
+          <fieldset id="ohjelmavalinta" class="ui-grid-c">
+            <div class="ui-block-a">
+              <input type="radio" name="ohjelma" id="3ohjelma" value="3" />
+              <label for="3ohjelma">A</label>
+            </div>
+            <div class="ui-block-b">
+              <input type="radio" name="ohjelma" id="2ohjelma" value="2" />
+              <label for="2ohjelma">B</label>
+            </div>
+            <div class="ui-block-c">
+              <input type="radio" name="ohjelma" id="1ohjelma" value="1" />
+              <label for="1ohjelma">C</label>
+            </div>
+            <div class="ui-block-d">
+              <input type="radio" name="ohjelma" id="0ohjelma" value="0" checked="checked" />
+              <label for="0ohjelma">D</label>
+            </div>
+          </fieldset>
           <br />
           <br />
               
@@ -143,23 +171,44 @@
               Kyykkynoja
             </li>
           </ol>
-  
         </div>
+      </div>
         
-        <div id="tabs-3">
+      <div data-role="page" id="ajastin" class="hidden tabcontent">
+        <div data-role="header" data-id="navigaatio">
+          <h1>Jokkerin Ventti</h1>
+          <div data-role="navbar" data-grid="c" id="navbar">
+            <ul>
+                <li><a href="#etusivu" href="#" data-transition="slide" data-direction="reverse">Etusivu</a></li>
+                <li><a href="#liikkeet" href="#" data-transition="slide" data-direction="reverse">Liikkeet</a></li>
+                <li><a href="#ajastin" href="#" class="ui-btn-active ui-state-persist">Ajastin</a></li>
+                <li><a href="#tietoa" href="#" data-transition="slide">Tietoa</a></li>
+            </ul>
+          </div>
+        </div>
+      
+        <div data-role="content">
           <div id="ajastincontainer">
-            <div id="seuraavakuva">
+            <div id="animaatiot" class="ui-grid-a">
+              <div class="ui-block-a">
+                <div id="tamakuva" class="resize">
+                  <img id="tamaliike" />
+                </div>
+              </div>
+              <div class="ui-block-b">
+                <div id="seuraavakuva" class="resize">
+                </div>
+              </div>
             </div>
-            <img id="tamaliike" />
-            <br />
+            <br id="brafterimg" />
             <span id="tamakuvaus"></span> <span id="kierros">1/1</span>
-            <br />
+             <br />
             Kokonaisaika jäljellä:
             <br />
             <div id="aika">
               <span class="isoaika">
                 <span id="kokoh">0</span>:<span id="kokom">00</span>:<span id="kokos">00</span>
-              </span>
+               </span>
               <br />
               <span id="liiketta"></span> jäljellä:
               <br />
@@ -170,13 +219,29 @@
             <div id="seuraavaliike">
               Seuraava liike on <span id="seuraavaon"></span>
             </div>
-            <div id="ajastinnappulat">
-              <button type="button" id="start">Käynnistä</button><button type="button" id="restart">Nollaa</button><button type="button" id="skip">Hyppää liikkeen yli</button>
+            <div id="ajastinnappulat" class="ui-grid-a">
+              <div class="ui-block-a"><button type="button" id="start">Käynnistä</button></div>
+              <div class="ui-block-b"><button type="button" id="restart">Nollaa</button></div>
             </div>
+            <div><button type="button" id="skip">Hyppää liikkeen yli</button></div>
           </div>
         </div>
+      </div>
         
-        <div id="tabs-4">
+      <div data-role="page" id="tietoa" class="hidden tabcontent">
+        <div data-role="header" data-id="navigaatio"> 
+          <h1>Jokkerin Ventti</h1>
+          <div data-role="navbar" data-grid="c" id="navbar">
+            <ul>
+                <li><a href="#etusivu" href="#" data-transition="slide" data-direction="reverse">Etusivu</a></li>
+                <li><a href="#liikkeet" href="#" data-transition="slide" data-direction="reverse">Liikkeet</a></li>
+                <li><a href="#ajastin" href="#" data-transition="slide" data-direction="reverse">Ajastin</a></li>
+                <li><a href="#tietoa" href="#" class="ui-btn-active ui-state-persist">Tietoa</a></li>
+            </ul>
+          </div>
+        </div>
+      
+        <div data-role="content">
           <div class="textcolumn">
             <img class="tietoaliike" style="height: 10em; width: 10em;" />
             <br />
@@ -202,10 +267,10 @@
       </div>
       
     </div>
-  <div id="tooltip" class="hidden">
-  </div>
-  <div id="tauko" class="hidden">
-    TAUKO!
-  </div>
+    <div id="tooltip" class="hidden">
+    </div>
+    <div id="tauko" class="hidden">
+      TAUKO!
+    </div>
   </body>
 </html>
