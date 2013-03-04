@@ -1,7 +1,10 @@
 $(function() {
 
+  // hide js-error
   $("#noscript").css("display", "none");
 
+  // load images to memory
+  // prevents empty images?
   preload([
     "animaatio/0.gif",
     "animaatio/1.gif",
@@ -35,64 +38,15 @@ $(function() {
     "images/7.svg",
     "images/8.svg"
     ]);
-    
-	$("img").on("click dblclick mousedown keydown mouseup keyup contextmenu", function(e) {
+  
+  // in order for swipe to work properly
+	$("img, #animaatiot").bind("click dblclick mousedown keydown mouseup keyup contextmenu", function(e) {
 		e.preventDefault();
 	});
   
-  $(window).resize(function (e) {
-    
-    var sivu = $('.ui-page-active').attr('id');
-    console.log(sivu);
-    
-    if (sivu == "ajastin") {
-      
-      
-      $("#animaatiot").css("display", "block");
-      
-      $("#animaatiot").height(10);
-      
-      console.log($("#ajastinnappulat").position());
-      
-      $("#animaatiot").height($("#animaatiot").height() + (($(window).height() - $("#ajastinnappulat").height() - 120 - $("#ajastinnappulat").position().top + $('#'+sivu+' [data-role="header"]').height())));
-      
-      if ($("#animaatiot").height() < 50) {
-        $("#animaatiot").css("display", "none");
-      } else {
-        
-        var containeraspect = ($("#animaatiot").width()/2) / ($("#brafterimg").position().top - $("#animaatiot").position().top);
-        
-        console.log($("#brafterimg").position().top - $("#animaatiot").position().top);
-        console.log("aspect: "+containeraspect);
-        
-        $("#animaatiot .resize").each(function (i, el) {
-        
-          $(this).height($("#animaatiot").height());
-          
-          if (($(el).children("img").width() / $(el).children("img").height()) > containeraspect) {
-            console.log("kapea");
-            $(this).children("img").width($(this).width() - 15);
-            $(this).children("img").height("auto");
-          } else {
-            console.log("laaja");
-            $(this).children("img").height($(this).height() - 15);
-            $(this).children("img").width("auto");
-          }
-        });
-        
-      }
-    }
-  });
-  
-  $(window).on('orientationchange', function(e) {
-    //$(window).trigger('resize');
-  });
-  
+  // Swiping left/right changes page
   $('[data-role="page"]').on("swipeleft", function(e) {
-    //$(document).on("mouseup click", function(e) {
-    //  e.preventDefault();
-    //  $(document).off('mouseup click');
-    //});
+    // TODO: prevent click if swipe???
     var nextpage = $(this).next('div[data-role="page"]');
     if (nextpage.length > 0) {
       $.mobile.changePage(nextpage, {
@@ -103,10 +57,6 @@ $(function() {
   });
   
   $('[data-role="page"]').on("swiperight", function(e) {
-    //$(document).on("mouseup click", function(e) {
-    //  e.preventDefault();
-    //  $(document).off('mouseup click');
-    //});
     var prevpage = $(this).prev('div[data-role="page"]');
     if (prevpage.length > 0) {
       $.mobile.changePage(prevpage, {
@@ -117,18 +67,23 @@ $(function() {
     }
   });
 
+  // sets all things, needed?
   $("#ajastin").on("pageshow", function (e) {
-    $(window).trigger("resize");
+    setTimer();
   });
   
-	var ohjeet = ["Hiihtohyppely, hyppele vaihtaen ilmassa toista jalkaa eteen", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+  // should add some more detailed instructions here
+	//var ohjeet = ["Hiihtohyppely, hyppele vaihtaen ilmassa toista jalkaa eteen", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 	
+  // liiketypes hold information of the duration of each move,
+  // one of the three predefined (2-5x40s/20s or 2-5min staright etc.)
 	liiketypes = [];
 	
 	$("#liikelista li").each( function (i, el) {
 		liiketypes[i] = parseInt($(this).data("type"));
 	});
 	
+  // liiketype 3 handling
 	strict = false;
 	
 	needretime = true;
@@ -147,27 +102,33 @@ $(function() {
 	nextstate = 0;
 	sarja = "0";
 
-	$("#"+sarja+"ohjelma").attr("checked", "true");
+  //set current program as checked
+	$("#"+sarja+"ohjelma").attr("checked", "checked");
   
-	$("#liikelista li").each( function(i, el) {
-		if ($.inArray($(this).data('num'), disabled) != -1) {
-			$(this).css("text-decoration", "line-through");
-		}
-	});
+  // set linethrough if disabled when showed
+  $("#liikkeet").on("pageshow", function() {
+    $("#liikelista li").each( function(i, el) {
+      if ($.inArray(($(this).data('num')-1), disabled) != -1) {
+        $(this).find("> span").css("text-decoration", "line-through");
+      } else {
+        $(this).find("> span").css("text-decoration", "none");
+      }
+    });
+  });
 			
 	$('input:radio[name=ohjelma]').change(function (e) {
 		sarja = $('input:radio[name=ohjelma]:checked').val();
 	});
 			
 	$("#liikelista li").click(function(e) {
-      needretime = true;
-		if ($(this).css("text-decoration") != "line-through") {
-			$(this).css("text-decoration", "line-through");
-			if ($.inArray($(this).data('num'), disabled) == -1) {
-				disabled.push($(this).data('num'));
+    needretime = true;
+		if ($(this).find("> span").css("text-decoration") != "line-through") {
+			$(this).find("> span").css("text-decoration", "line-through");
+			if ($.inArray(($(this).data('num')-1), disabled) == -1) {
+				disabled.push($(this).data('num')-1);
 			}
 		} else {
-			$(this).css("text-decoration", "none");
+			$(this).find("> span").css("text-decoration", "none");
 			disabled.splice( $.inArray($(this).data('num'), disabled), 1 );
 		}
 	});
@@ -175,12 +136,12 @@ $(function() {
   $("#kaikkiliikkeet").click(function (e) {
     if (disabled.length < 1) {
       $("#liikelista li").each( function(i, el) {
-        $(this).css("text-decoration", "line-through");
-        disabled.push($(this).data('num'));
+        $(this).find("> span").css("text-decoration", "line-through");
+        disabled.push($(this).data('num')-1);
       });
     } else {
       $("#liikelista li").each( function(i, el) {
-        $(this).css("text-decoration", "none");
+        $(this).find("> span").css("text-decoration", "none");
         disabled = [];
       });
     }
@@ -195,7 +156,13 @@ $(function() {
 	//});
 	
   function setTimer() {
-    var timeleft = calcFullTime();
+  
+    var timeleft = 0;
+    if (fulltime == 0 || needretime) {
+      timeleft = calcFullTime(state+1);// - calcFullTime(state, state, true) + liiketime;
+    } else {
+      timeleft = fulltime;
+    }
         
     updateTime(timeleft);
         
@@ -205,8 +172,7 @@ $(function() {
       $("#kierros").html(((liikekierrokset-kierros)+1)+"/"+liikekierrokset);
     }
     
-    $("#liikem").html("0");
-    $("#liikes").html("00");
+    updateLiikeTime(liiketime);
 
     if (!tauko) {
       $("#liiketta").html("Liikettä");
@@ -215,34 +181,37 @@ $(function() {
       $("#liiketta").html("Taukoa");
       $("#tamaliike").attr("src", "animaatio/0.gif");
     }
-    $("#tamakuvaus").html($.trim($("#liikelista li[data-num="+state+"]").html()));
+    
+    if ($.inArray((state-1), disabled) == -1 && state > 0) {
+      $("#tamakuvaus").html($.trim($("#liikelista li[data-num="+(state)+"] > span").html()));
+    } else {
+      $("#tamakuvaus").html("");
+    }
         
     if (tauko) {
-      $("#tamakuvaus, #kierros").html("");
+      //$("#tamakuvaus, #kierros").html("");
       $("#tamaliike").css("border", "solid red thick");
     } else {
       $("#tamaliike").css("border", "solid green thick");
     }
-    
-    $(window).trigger("resize");
       
     nextstate = state + 1;
-    console.log(nextstate);
-    console.log($.inArray(nextstate, disabled));
-    while ($.inArray(nextstate, disabled) != -1 && nextstate < 22) {
+    //console.log($.inArray(nextstate, disabled));
+    while ($.inArray((nextstate-1), disabled) != -1 && nextstate < 22) {
       nextstate++;
     }
+    console.log("nextstate: "+nextstate);
+    var tempnext = nextstate;
     if (nextstate < 22) {
       if (kierros > 1) {
-        nextstate--;
+        nextstate = state;
       }
-      $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"]").html());
+      $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"] > span").html());
       $("#seuraavaon").data("num", nextstate);
-      var seuraavas = $("#seuraavakuva img").attr("style");
-      $("#seuraavakuva").html('<span style="position: absolute; top: 10; z-index: 1">Seuraava:</span><img src="animaatio/'+nextstate+'.gif" style="'+seuraavas+'" />');
+      $("#seuraavakuva").html('<span style="position: absolute; top: 10; z-index: 1">Seuraava:</span><img src="animaatio/'+nextstate+'.gif" />');
       
       if (kierros > 1) {
-        nextstate++;
+        nextstate = tempnext;
       }
     } else {
       $("#seuraavaon").html("lepo");
@@ -296,12 +265,13 @@ $(function() {
       if (conf == true) {
         console.log("skip");
         if (state < 21) {
-          disabled.push(state);
-          state = nextstate;
+          disabled.push(state-1);
+          //state = nextstate;
           liiketime = 0;
           needretime = true;
           kierros = 0;
           tauko = true;
+          setTimer();
         } else {
           stopTimer();
           needretime = true;
@@ -313,23 +283,27 @@ $(function() {
           kierros = 0;
           kierrosjalj = 0;
           nextstate = 0;
+          setTimer();
         }
       }
 	});
 		
   setTimeout(function() {
-    $(".etuliike").attr("src", "images/"+Math.floor((Math.random()*8)+1)+".svg");
-    $(window).trigger("resize");
-  }, 500);
+    $("#etuliike").attr("src", "images/"+Math.floor((Math.random()*8)+1)+".svg");
+  }, 200);
 
-	$(".tietoaliike").attr("src", "images/"+Math.floor((Math.random()*8)+1)+".svg");
+	$("#tietoaliike").attr("src", "images/"+Math.floor((Math.random()*8)+1)+".svg");
 	
-	function calcFullTime(start, maximi) {
+	function calcFullTime(start, maximi, tauko) {
+    if (start == 0 && maximi == 0) {
+      return 0;
+    }
+    tauko = tauko || false;
 		start = start || 1
-		var max = maximi || 21;
+    var max = maximi || 21;
 		var secs = 0;
 		for (var i = (start-1); i < max; i++) {
-			if ($.inArray((i+1), disabled) == -1) {
+			if ($.inArray((i), disabled) == -1 && i >= 0) {
 				if (liiketypes[i] == 1) {
 					secs += 40+20+40;
 					secs += parseInt(sarja)*(20+40);
@@ -351,7 +325,9 @@ $(function() {
 			}
 		}
 		// viimeinen tauko pois
-		secs -= 30;
+    if (!tauko) {
+      secs -= 30;
+    }
 		
 		return secs;
 	}
@@ -403,6 +379,7 @@ $(function() {
 		if (timeron) {
 			clearInterval(timer);
 			timeron = false;
+      tauko = true;
 		}
 	}
 	
@@ -412,7 +389,11 @@ $(function() {
 		fulltime--;
 		
 		if (needretime) {
-			fulltime = calcFullTime(state);
+    
+      // TODO: correct calculation of remaining time
+      // - adding only liiketime fails - needs to be
+      // time left of current move, not only this round
+			fulltime = calcFullTime(state+1) - calcFullTime(state, state, true) + liiketime;
 			needretime = false;
 		}
 		if (state > 21 || nextstate > 22 || fulltime < 1) {
@@ -439,8 +420,7 @@ $(function() {
           $("#liiketta").html("Liikettä");
           $("#tamaliike").css("border", "solid green thick");
           $("#tamaliike").attr("src", "animaatio/"+state+".gif");
-          $("#tamakuvaus").html($.trim($("#liikelista li[data-num="+state+"]").html()));
-          $(window).trigger("resize");
+          $("#tamakuvaus").html($.trim($("#liikelista li[data-num="+state+"] > span").html()));
 
 					$("#tauko").css("display", "none");
           
@@ -511,7 +491,7 @@ $(function() {
               nextstate--;
             }
             $("#seuraavaon").css("font-size", "1em");
-            $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"]").html());
+            $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"] > span").html());
             $("#seuraavaon").data("num", nextstate);
             var seuraavas = $("#seuraavakuva img").attr("style");
             $("#seuraavakuva").html('<span style="position: absolute; top: 10; z-index: 1">Seuraava:</span><img src="animaatio/'+nextstate+'.gif" style="'+seuraavas+'" />');
@@ -543,9 +523,9 @@ $(function() {
 							liiketime = 30;
 
               $("#tamakuvaus, #kierros").html("");
-              var tamapos = $("#tamaliike").position();
-              var tamawidth = $("#tamaliike").width();
-              var tamaheight = $("#tamaliike").height();
+              //var tamapos = $("#tamaliike").position();
+              //var tamawidth = $("#tamaliike").width();
+              //var tamaheight = $("#tamaliike").height();
 
               //$("#seuraavakuva").animate({left: (tamapos.left + (tamawidth/20)), width: (tamawidth - (tamawidth/10)), top: (tamapos.top + (tamaheight/20))}, 2000);
               $("#seuraavaon").animate({"font-size": "1.2em"}, 2000);

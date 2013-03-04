@@ -7,17 +7,12 @@
     <title>
       Jokkerin ventti
     </title>
-    <link href="jokkeri.css" rel="stylesheet" />
-    <!--<link href="jqueryui/jquery-ui-1.10.1.custom.css" rel="stylesheet" />-->
     <link href="jquery.mobile-1.3.0/jquery.mobile-1.3.0.min.css" rel="stylesheet" />
+    <link href="jokkeri.css" rel="stylesheet" />
     <script src="jquery-1.9.1.min.js" type="text/javascript">
     </script>
-    <!--<script src="jquery-ui-1.10.1.custom.min.js" type="text/javascript">
-    </script>-->
     <script src="jquery.mobile-1.3.0/jquery.mobile-1.3.0.min.js">
     </script>
-    <!--<script src="jquery.boxfit.js" type="text/javascript">
-    </script>-->
     <script src="jokkeri.js" type="text/javascript">
     </script>
   </head>
@@ -29,21 +24,21 @@
         </p>
       </div>
         
-      <div data-role="page" id="etusivu" class="tabcontent">
-        <div data-role="header" data-id="navigaatio">
+      <div data-role="page" id="etusivu">
+        <div data-role="header" data-id="navigaatio" data-position="fixed">
           <h1>Jokkerin Ventti</h1>
           <div data-role="navbar" data-grid="c" id="navbar">
             <ul>
                 <li><a href="#etusivu" class="ui-btn-active ui-state-persist">Etusivu</a></li>
-                <li><a href="#liikkeet"  data-transition="slide">Liikkeet</a></li>
-                <li><a href="#ajastin"  data-transition="slide">Ajastin</a></li>
-                <li><a href="#tietoa"  data-transition="slide">Tietoa</a></li>
+                <li><a href="#liikkeet" data-transition="slide">Liikkeet</a></li>
+                <li><a href="#ajastin" data-transition="slide">Ajastin</a></li>
+                <li><a href="#tietoa" data-transition="slide">Tietoa</a></li>
             </ul>
           </div>
         </div>
       
         <div data-role="content">
-          <img class="etuliike" style="height: 10em; width: 10em;" />
+          <img id="etuliike" class="staticimg" />
           <br />
           Ylävalikosta saat vaihdettua näkymää.
           <br />
@@ -56,8 +51,8 @@
         </div>
       </div>
       
-      <div data-role="page" id="liikkeet" class="hidden tabcontent">
-        <div data-role="header" data-id="navigaatio">
+      <div data-role="page" id="liikkeet">
+        <div data-role="header" data-id="navigaatio" data-position="fixed">
           <h1>Jokkerin Ventti</h1>
           <div data-role="navbar" data-grid="c" id="navbar">
             <ul>
@@ -73,26 +68,16 @@
           <p>
             Valitse sopiva ohjelma
           </p>
-          <fieldset id="ohjelmavalinta" class="ui-grid-c">
-            <div class="ui-block-a">
+          <fieldset id="ohjelmavalinta" data-role="controlgroup" data-type="horizontal">
               <input type="radio" name="ohjelma" id="3ohjelma" value="3" />
               <label for="3ohjelma">A</label>
-            </div>
-            <div class="ui-block-b">
               <input type="radio" name="ohjelma" id="2ohjelma" value="2" />
               <label for="2ohjelma">B</label>
-            </div>
-            <div class="ui-block-c">
               <input type="radio" name="ohjelma" id="1ohjelma" value="1" />
               <label for="1ohjelma">C</label>
-            </div>
-            <div class="ui-block-d">
-              <input type="radio" name="ohjelma" id="0ohjelma" value="0" checked="checked" />
+              <input type="radio" name="ohjelma" id="0ohjelma" value="0" />
               <label for="0ohjelma">D</label>
-            </div>
           </fieldset>
-          <br />
-          <br />
               
           <!--
           <input type="checkbox" name="strict" id="strict" checked />
@@ -104,78 +89,78 @@
             Voit valita jotkin liikkeet pois sarjasta klikkaamalla
           </p>
           <p>
-            <button type="button" id="kaikkiliikkeet" style="font-size: 1.1em;">Kaikki mukaan/pois</button>
+            <button type="button" data-inline="true" id="kaikkiliikkeet" style="font-size: 1.1em;">Kaikki mukaan/pois</button>
           </p>
-          <ol id="liikelista">
+          <ol id="liikelista" data-role="listview" data-inset="true">
             <li data-type="1" data-num="1">
-              Jalkojen vaihtohyppely
+              <span>Jalkojen vaihtohyppely</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="2" data-num="2">
-              Päinmakuulla vastakkainen käsi ja jalka
+              <span>Päinmakuulla vastakkainen käsi ja jalka</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="3">
-              Haara-perus-hyppely
+              <span>Haara-perus-hyppely</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="2" data-num="4">
-              Kyynerpäät kattoon
+              <span>Kyynerpäät kattoon</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="2" data-num="5">
-              Polviseisonnasta kaatuminen
+              <span>Polviseisonnasta kaatuminen</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="6">
-              Jalanheitot eteen
+              <span>Jalanheitot eteen</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="7">
-              Takanoja jalat suorina
+              <span>Takanoja jalat suorina</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="2" data-num="8">
-              Penkiltä lasku -kyykky
+              <span>Penkiltä lasku -kyykky</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="9">
-              Laskuvarjohyppely
+              <span>Laskuvarjohyppely</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="10">
-              Punnerrus jalkaa nostaen
+              <span>Punnerrus jalkaa nostaen</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="11">
-              Takanoja polvet koukussa
+              <span>Takanoja polvet koukussa</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="12">
-              Saksihyppely (AC/DC)
+              <span>Saksihyppely (AC/DC)</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="13">
-              Jalkakyykky
+              <span>Jalkakyykky</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="14">
-              Penkille nousu
+              <span>Penkille nousu</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="15">
-              Päkiähyppely
+              <span>Päkiähyppely</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="3" data-num="16">
-              Jalan nosto sivulle
+              <span>Jalan nosto sivulle</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="17">
-              Puolilinkkari
+              <span>Puolilinkkari</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="18">
-              Polvennostojuoksu seinää vasten
+              <span>Polvennostojuoksu seinää vasten</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="2" data-num="19">
-              Päinmakuulta nousu käsien varaan
+              <span>Päinmakuulta nousu käsien varaan</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="1" data-num="20">
-              Kyykkyhyppely
+              <span>Kyykkyhyppely</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
             <li data-type="2" data-num="21">
-              Kyykkynoja
+              <span>Kyykkynoja</span><button type="button" data-role="button" data-icon="info" data-iconpos="notext" data-mini="true" data-theme="c" data-inline="true">Kuva</button>
             </li>
           </ol>
         </div>
       </div>
         
-      <div data-role="page" id="ajastin" class="hidden tabcontent">
-        <div data-role="header" data-id="navigaatio">
+      <div data-role="page" id="ajastin">
+        <div data-role="header" data-id="navigaatio" data-position="fixed">
           <h1>Jokkerin Ventti</h1>
           <div data-role="navbar" data-grid="c" id="navbar">
             <ul>
@@ -188,48 +173,53 @@
         </div>
       
         <div data-role="content">
-          <div id="ajastincontainer">
-            <div id="animaatiot" class="ui-grid-a">
-              <div class="ui-block-a">
-                <div id="tamakuva" class="resize">
-                  <img id="tamaliike" />
-                </div>
-              </div>
-              <div class="ui-block-b">
-                <div id="seuraavakuva" class="resize">
-                </div>
+          <div id="animaatiot" class="ui-grid-a">
+            <div class="ui-block-a">
+              <div id="tamakuva" class="resize">
+                <img id="tamaliike" />
               </div>
             </div>
-            <br id="brafterimg" />
-            <span id="tamakuvaus"></span> <span id="kierros">1/1</span>
-             <br />
-            Kokonaisaika jäljellä:
-            <br />
-            <div id="aika">
-              <span class="isoaika">
-                <span id="kokoh">0</span>:<span id="kokom">00</span>:<span id="kokos">00</span>
-               </span>
-              <br />
-              <span id="liiketta"></span> jäljellä:
-              <br />
-              <span class="pieniaika">
-                <span id="liikem">0</span>:<span id="liikes">00</span>
-              </span>
+            <div class="ui-block-b">
+              <div id="seuraavakuva" class="resize">
+              </div>
             </div>
+          </div>
+          <div id="tauko" class="hidden">
+            TAUKO!
+          </div>
+          <div id="bottomcontrols" data-role="footer" data-position="fixed">
+            <div id="kuvaukset">
+              <span id="tamakuvaus"></span> <span id="kierros">1/1</span>
+            </div>
+            <div id="aika" class="ui-grid-a">
+              <div id="liikettabox" class="ui-block-a">
+                <span id="liiketta">Liikettä</span> jäljellä:<br />
+                <span class="pieniaika">
+                  <span id="liikem">0</span>:<span id="liikes">00</span>
+                </span>
+              </div>
+              <div id="kokonaisbox" class="ui-block-b">
+                Kokonaisaika jäljellä:<br />
+                <span class="isoaika">
+                  <span id="kokoh">0</span>:<span id="kokom">00</span>:<span id="kokos">00</span>
+                </span>
+              </div>
+            </div>
+          
             <div id="seuraavaliike">
               Seuraava liike on <span id="seuraavaon"></span>
             </div>
             <div id="ajastinnappulat" class="ui-grid-a">
-              <div class="ui-block-a"><button type="button" id="start">Käynnistä</button></div>
-              <div class="ui-block-b"><button type="button" id="restart">Nollaa</button></div>
+              <div class="ui-block-a"><button type="button" data-role="button" data-mini="true" id="start">Käynnistä</button></div>
+              <div class="ui-block-b"><button type="button" data-role="button" data-mini="true" id="restart">Nollaa</button></div>
             </div>
-            <div><button type="button" id="skip">Hyppää liikkeen yli</button></div>
+            <div id="skipcontainer"><button type="button" data-role="button" data-mini="true" id="skip">Hyppää liikkeen yli</button></div>
           </div>
         </div>
       </div>
         
-      <div data-role="page" id="tietoa" class="hidden tabcontent">
-        <div data-role="header" data-id="navigaatio"> 
+      <div data-role="page" id="tietoa">
+        <div data-role="header" data-id="navigaatio" data-position="fixed"> 
           <h1>Jokkerin Ventti</h1>
           <div data-role="navbar" data-grid="c" id="navbar">
             <ul>
@@ -243,7 +233,7 @@
       
         <div data-role="content">
           <div class="textcolumn">
-            <img class="tietoaliike" style="height: 10em; width: 10em;" />
+            <img id="tietoaliike" class="staticimg" />
             <br />
             "Jokkerin ventti" on äärimmäisen tehokas ja monipuolinen lihaskunnon kehittäjä. Vain harjoitteluun lujasti sitoutuneet ja voimakkaan tahdon omaavat urheilijat pystyvät viemään "Ventin" kovimmat ohjelmat läpi. Harjoituksen jälkeen on ohjelman mukaisesti ventti, mutta annamme takuun: Suorittamalla "Ventin" ohjelman mukaisesti 10 kertaa lihaskuntosi paranee lähtötasostasi riippuen 10-50%.
             <br /><br />
@@ -266,11 +256,6 @@
         </div>
       </div>
       
-    </div>
-    <div id="tooltip" class="hidden">
-    </div>
-    <div id="tauko" class="hidden">
-      TAUKO!
     </div>
   </body>
 </html>
