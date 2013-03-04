@@ -66,6 +66,14 @@ $(function() {
       });
     }
   });
+  
+  //$(window).on("orientationchange", function (e) {
+  //  var portrait = (window.orientation % 180 == 0);
+  //  $("body > div").css("-webkit-transform", !portrait ? "rotate(-90deg)" : "")
+  //                 .css("-moz-transform", !portrait ? "rotate(-90deg)" : "")
+  //                 .css("-ms-transform", !portrait ? "rotate(-90deg)" : "")
+  //                 .css("transform", !portrait ? "rotate(-90deg)" : "");
+  //}
 
   // sets all things, needed?
   $("#ajastin").on("pageshow", function (e) {
@@ -121,6 +129,7 @@ $(function() {
 	});
 			
 	$("#liikelista li").click(function(e) {
+    e.preventDefault();
     needretime = true;
 		if ($(this).find("> span").css("text-decoration") != "line-through") {
 			$(this).find("> span").css("text-decoration", "line-through");
@@ -208,7 +217,7 @@ $(function() {
       }
       $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"] > span").html());
       $("#seuraavaon").data("num", nextstate);
-      $("#seuraavakuva").html('<span style="position: absolute; top: 10; z-index: 1">Seuraava:</span><img src="animaatio/'+nextstate+'.gif" />');
+      $("#seuraavakuva").html('<span style="position: absolute; top: 10; z-index: 1; margin: auto;">Seuraava:</span><img src="animaatio/'+nextstate+'.gif" />');
       
       if (kierros > 1) {
         nextstate = tempnext;
@@ -494,7 +503,7 @@ $(function() {
             $("#seuraavaon").html($("#liikelista li[data-num="+(nextstate)+"] > span").html());
             $("#seuraavaon").data("num", nextstate);
             var seuraavas = $("#seuraavakuva img").attr("style");
-            $("#seuraavakuva").html('<span style="position: absolute; top: 10; z-index: 1">Seuraava:</span><img src="animaatio/'+nextstate+'.gif" style="'+seuraavas+'" />');
+            $("#seuraavakuva").html('<span style="position: absolute; top: 10; z-index: 1; margin: auto;">Seuraava:</span><img src="animaatio/'+nextstate+'.gif" style="'+seuraavas+'" />');
 
             if (kierros > 1) {
               nextstate++;
