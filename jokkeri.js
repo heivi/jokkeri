@@ -2,6 +2,16 @@ $(function() {
 
   // hide js-error
   $("#noscript").css("display", "none");
+  
+  $(window).on("resize", function() {
+    if ($(window).height() / $(window).width() > 1) {
+      $(".staticimg").css("width", "").css("max-width", "").css("height", "").css("max-height", "");
+      $(".staticimg").css("width", "100%");
+    } else {
+      $(".staticimg").css("width", "").css("max-width", "").css("height", "").css("max-height", "");
+      $(".staticimg").css("height", $(window).height() / 100 * 60);
+    }
+  });
 
   // load images to memory
   // prevents empty images?
@@ -579,6 +589,11 @@ $(function() {
       // Alternatively you could use:
       // (new Image()).src = this;
     });
+  }
+  
+  function set_body_height() {
+    var wh = $(window).height();
+    $('body').attr('style', 'height:' + wh + 'px;');
   }
 
 	
