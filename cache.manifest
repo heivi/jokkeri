@@ -3,6 +3,9 @@ CACHE MANIFEST
 # this is a comment
 # spaces are ignored
 # blank lines are ignored
+
+# Version 130311
+
 /jokkeri/jokkeri.css
 /jokkeri/jokkeri.js
 /jokkeri/jquery-1.9.1.min.js
@@ -46,3 +49,5 @@ CACHE MANIFEST
 /jokkeri/images/6.svg
 /jokkeri/images/7.svg
 /jokkeri/images/8.svg
+/jokkeri/favicon.ico
+/jokkeri/apple-touch-icon.png

@@ -38,14 +38,14 @@ html, body {
 
 #liikelista li .ui-btn {
   float: right;
-  position: relative;
-  top: -0.5em;
+  /*position: relative;
+  top: -0.5em;*/
 }
 
-#liikelista li > span{
+/*#liikelista li > span{
   width: 80%;
   display: inline-block;
-}
+}*/
 
 #container {
 	width: 100%;
@@ -124,6 +124,10 @@ html, body {
 
 #animaatiot img {
   max-width: 80%;
+  border-radius: 1em;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -ms-border-radius: 1em;
 }
 /*
 @media all and (min-height: 700px) {
